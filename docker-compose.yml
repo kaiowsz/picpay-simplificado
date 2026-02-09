@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: picpay-db  
+    environment:
+      POSTGRES_DB: picpay      
+      POSTGRES_USER: postgres  
+      POSTGRES_PASSWORD: 123   
+    ports:
+      - "5432:5432"            
+    volumes:
+    - pgdata_new:/var/lib/postgresql/data
+
+volumes:
+ pgdata_new:
