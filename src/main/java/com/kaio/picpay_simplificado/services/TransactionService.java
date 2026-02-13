@@ -82,6 +82,8 @@ public class TransactionService {
             } else return false;
 
         } catch (Exception e) {
+            System.out.println("Erro no TransactionService: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
