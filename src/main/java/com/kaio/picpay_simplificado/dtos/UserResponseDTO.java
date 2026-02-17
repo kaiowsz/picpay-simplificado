@@ -8,8 +8,8 @@ import com.kaio.picpay_simplificado.models.UserType;
 public record UserResponseDTO(Long id, String firstName, String lastName,
     String document, String email, BigDecimal balance, UserType userType
 ) {
-    public UserResponseDTO(User user) {
-        this(
+    public static UserResponseDTO from(User user) {
+        return new UserResponseDTO(
             user.getId(),
             user.getFirstName(),
             user.getLastName(),

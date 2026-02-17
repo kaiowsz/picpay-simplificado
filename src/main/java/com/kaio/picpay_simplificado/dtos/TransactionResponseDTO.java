@@ -8,17 +8,19 @@ import com.kaio.picpay_simplificado.models.Transaction;
 public record TransactionResponseDTO(
     Long id,
     BigDecimal value,
-    Long senderId,
-    Long receiverId,
+    UserResponseDTO sender,
+    UserResponseDTO receiver,
     LocalDateTime timestamp
 ) {
-    public TransactionResponseDTO(Transaction t) {
-        this(
+    public static TransactionResponseDTO from(Transaction t) {
+
+        return new TransactionResponseDTO(
             t.getId(), 
             t.getAmount(), 
-            t.getSender().getId(),
-            t.getReceiver().getId(), 
+            UserResponseDTO.from(t.getSender()), 
+            UserResponseDTO.from(t.getReceiver()),
             t.getTimestamp()
         );
+
     }
 }
