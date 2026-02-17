@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kaio.picpay_simplificado.dtos.DepositDTO;
 import com.kaio.picpay_simplificado.dtos.UserDTO;
 import com.kaio.picpay_simplificado.models.User;
 import com.kaio.picpay_simplificado.models.UserType;
@@ -48,4 +49,14 @@ public class UserService {
     public List<User> getAllUsers() {
         return this.repository.findAll();
     }
+
+    public User deposit(DepositDTO data) throws Exception {
+        User user = findUserById(data.userId());
+
+        user.setBalance(user.getBalance().add(data.value()));
+
+        this.saveUser(user);
+
+        return user;
+    } 
 }
