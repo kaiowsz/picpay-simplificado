@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.kaio.picpay_simplificado.dtos.UserDTO;
+import com.kaio.picpay_simplificado.dtos.UserResponseDTO;
 import com.kaio.picpay_simplificado.models.User;
 import com.kaio.picpay_simplificado.services.UserService;
 
@@ -27,15 +28,20 @@ public class UserController {
 
     @PostMapping
     // @Valid uses the validations from the UserDTO
-    public ResponseEntity<User> createUser(@RequestBody @Valid UserDTO user) {
+    public ResponseEntity<UserResponseDTO> createUser(@RequestBody @Valid UserDTO user) {
         User newUser = userService.createUser(user);
 
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+        return new ResponseEntity<>(new UserResponseDTO(newUser), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
         List<User> users = userService.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+
+        List<UserResponseDTO> response = users.stream()
+        .map(UserResponseDTO::new)
+        .toList();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
