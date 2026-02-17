@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -37,6 +38,15 @@ public class TransactionService {
     @Transactional
     public Transaction createTransaction(TransactionDTO transaction) throws Exception {
         User sender = userService.findUserById(transaction.senderId());
+
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        var userAuthenticated = (User) authentication.getPrincipal();
+
+        if(!sender.getId().equals(userAuthenticated.getId())) {
+            throw new Exception("Transação não autorizada: você não pode movimentar a conta de outro usuário.");
+        }
+
         User receiver = userService.findUserById(transaction.receiverId());
 
         userService.validateTransaction(sender, transaction.value());
