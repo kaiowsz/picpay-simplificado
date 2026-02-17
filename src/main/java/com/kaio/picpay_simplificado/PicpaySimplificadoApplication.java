@@ -3,7 +3,7 @@ package com.kaio.picpay_simplificado;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication()
 public class PicpaySimplificadoApplication {
 
 	public static void main(String[] args) {

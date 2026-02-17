@@ -31,7 +31,7 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> createUser(@RequestBody @Valid UserDTO user) {
         User newUser = userService.createUser(user);
 
-        return new ResponseEntity<>(new UserResponseDTO(newUser), HttpStatus.CREATED);
+        return new ResponseEntity<>(UserResponseDTO.from(newUser), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -39,7 +39,7 @@ public class UserController {
         List<User> users = userService.getAllUsers();
 
         List<UserResponseDTO> response = users.stream()
-        .map(UserResponseDTO::new)
+        .map(UserResponseDTO::from)
         .toList();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
